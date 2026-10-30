@@ -1,0 +1,16 @@
+SUPER_CONFIG_PATH: ./configs/fish_interaction_stage1.yaml
+
+EXP_NAME: fish_interaction_stage2_joint
+OUTPUTS_DIR: ./pretrained/interaction/outputs/fish_interaction_stage2_joint
+RESUME_MODEL: ./pretrained/interaction/outputs/fish_interaction_stage1/checkpoint_11.pth
+RESUME_OPTIMIZER: False
+RESUME_SCHEDULER: False
+# Stage 2 loads weights only.  Keeping stage-1 epoch/global-step state skips
+# stage-2 warmup and shortens this nominal 40-epoch schedule to 28 epochs.
+RESUME_STATES: False
+DETR_NUM_TRAIN_FRAMES: 2
+EPOCHS: 40
+SCHEDULER_MILESTONES: [25, 35]
+LR: 5.0e-5
+INTERACTION_LOSS_WEIGHT: 0.15
+INFERENCE_GROUP: interaction_stage2

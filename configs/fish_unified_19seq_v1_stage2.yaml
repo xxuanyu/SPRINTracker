@@ -1,0 +1,21 @@
+# Generated isolated 19-sequence run; original configs are unchanged.
+SUPER_CONFIG_PATH: ./configs/fish_unified_stage2.yaml
+DATA_ROOT: ./datasets
+DATASETS:
+- SportsMOT
+DATASET_SPLITS:
+- train
+INFERENCE_DATASET: SportsMOT
+INFERENCE_SPLIT: val
+INFERENCE_MODE: evaluate
+PERSISTENT_NUM_SLOTS:
+  seq3: 27
+  seq7: 27
+  seq14: 30
+  seq18: 30
+EXP_NAME: fish_unified_19seq_v1_stage2
+OUTPUTS_DIR: ./outputs/fish_unified_19seq_v1_stage2
+RESUME_MODEL: ./outputs/fish_unified_19seq_v1_stage1/checkpoint_7.pth
+RESUME_OPTIMIZER: false
+RESUME_SCHEDULER: false
+RESUME_STATES: false

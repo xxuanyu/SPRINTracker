@@ -1,0 +1,58 @@
+# Fish-specific MOTIP training configuration.
+# Keep the SportsMOT model structure, but replace its sparse temporal sampling
+# and short optimization schedule with settings suitable for dense fish videos.
+SUPER_CONFIG_PATH: ./configs/r50_deformable_detr_motip_sportsmot.yaml
+
+DATA_ROOT: ./datasets
+DATASETS: [SportsMOT]
+DATASET_SPLITS: [train]
+NUM_CLASSES: 1
+
+# The largest training sequence contains 28 identities. 32 leaves four spare
+# identity tokens while being easier to optimize than the inherited 50-way head.
+NUM_ID_VOCABULARY: 32
+
+# Stage-1 fish detector. Start a fresh full-MOTIP experiment from this weight;
+# do not resume the optimizer/scheduler from the old 13-epoch experiment.
+DETR_PRETRAIN: ./checkpoints/fish_detector.pth
+
+# Fish-specific temporal curriculum: use 60 consecutive frames. The inherited
+# SportsMOT value 4 randomly spans 60-237 raw frames and is too difficult here.
+SAMPLE_STEPS: [0]
+SAMPLE_LENGTHS: [60]
+SAMPLE_INTERVALS: [1]
+REL_PE_LENGTH: 60
+MISS_TOLERANCE: 60
+
+# Give the randomly initialized trajectory/ID decoder enough high-LR updates.
+BATCH_SIZE: 1
+ACCUMULATE_STEPS: 1
+EPOCHS: 40
+LR: 1.0e-4
+LR_WARMUP_EPOCHS: 1
+SCHEDULER_MILESTONES: [25, 35]
+SCHEDULER_GAMMA: 0.1
+ID_LOSS_WEIGHT: 1.0
+SAVE_CHECKPOINT_PER_EPOCH: 1
+
+# Weaken difficult trajectory corruption until the small fish dataset learns
+# stable consecutive-frame association.
+AUG_TRAJECTORY_OCCLUSION_PROB: 0.2
+AUG_TRAJECTORY_SWITCH_PROB: 0.2
+
+# The detector already has fish-domain pretraining. Fine-tune only two frames
+# per clip to preserve detection quality and reduce memory use.
+DETR_NUM_TRAIN_FRAMES: 2
+DETR_NUM_CHECKPOINT_FRAMES: 2
+USE_DECODER_CHECKPOINT: True
+
+NUM_WORKERS: 6
+USE_WANDB: False
+
+INFERENCE_DATASET: SportsMOT
+INFERENCE_SPLIT: val
+INFERENCE_MODE: evaluate
+DET_THRESH: 0.3
+NEWBORN_THRESH: 0.6
+ID_THRESH: 0.05
+ASSIGNMENT_PROTOCOL: hungarian

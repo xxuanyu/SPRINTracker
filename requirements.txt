@@ -1,0 +1,14 @@
+# Install the matching PyTorch/CUDA stack separately; see README.
+numpy<2
+scipy
+pandas
+matplotlib
+PyYAML
+tqdm
+Pillow
+opencv-python
+pycocotools
+accelerate
+einops
+wandb
+lap

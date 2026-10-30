@@ -1,0 +1,13 @@
+SUPER_CONFIG_PATH: ./configs/fish_unified_stage2.yaml
+
+EXP_NAME: fish_unified_smoke_3gpu
+OUTPUTS_DIR: ./outputs/fish_unified_smoke_3gpu
+RESUME_MODEL: ./checkpoints/fishmotip_unified_bootstrap.pth
+RESUME_STATES: False
+EPOCHS: 1
+LENGTH_PER_ITERATION: 6
+MAX_TRAIN_STEPS_PER_EPOCH: 2
+NUM_WORKERS: 2
+SAVE_CHECKPOINT_PER_EPOCH: 999
+INFERENCE_DATASET:
+

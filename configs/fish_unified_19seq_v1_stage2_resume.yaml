@@ -1,0 +1,5 @@
+# Generated isolated 19-sequence run; original configs are unchanged.
+SUPER_CONFIG_PATH: ./configs/fish_unified_19seq_v1_stage2.yaml
+RESUME_OPTIMIZER: true
+RESUME_SCHEDULER: true
+RESUME_STATES: true

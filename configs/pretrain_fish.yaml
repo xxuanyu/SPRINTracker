@@ -1,0 +1,25 @@
+SUPER_CONFIG_PATH: ./configs/pretrain_r50_deformable_detr_sportsmot.yaml
+
+DATA_ROOT: ./datasets
+DATASETS: [SportsMOT]
+DATASET_SPLITS: [train]
+
+NUM_CLASSES: 1
+
+DETR_PRETRAIN: ./pretrains/r50_deformable_detr_coco.pth
+
+# 只训练检测器
+ONLY_DETR: True
+SAMPLE_LENGTHS: [1]
+
+BATCH_SIZE: 2
+EPOCHS: 20
+LR: 1.0e-4
+SCHEDULER_MILESTONES: [15]
+SAVE_CHECKPOINT_PER_EPOCH: 5
+
+NUM_WORKERS: 6
+USE_WANDB: False
+
+# 预训练阶段不做 MOT 跟踪评估
+INFERENCE_DATASET:

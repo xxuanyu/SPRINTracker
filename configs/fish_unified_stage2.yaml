@@ -1,0 +1,28 @@
+SUPER_CONFIG_PATH: ./configs/fish_unified_stage1.yaml
+
+EXP_NAME: fish_unified_stage2_joint
+OUTPUTS_DIR: ./outputs/fish_unified_stage2_joint
+RESUME_MODEL: ./outputs/fish_unified_stage1/checkpoint_7.pth
+RESUME_OPTIMIZER: False
+RESUME_SCHEDULER: False
+RESUME_STATES: False
+
+# Jointly fine-tune two detection frames while retaining the stabilized
+# association representation learned in stage 1.
+DETR_NUM_TRAIN_FRAMES: 2
+DETR_NUM_CHECKPOINT_FRAMES: 1
+EPOCHS: 30
+LR: 2.0e-5
+LR_WARMUP_START_EPOCH: 0
+LR_WARMUP_EPOCHS: 1
+SCHEDULER_MILESTONES: [20, 27]
+
+# Slightly reduce auxiliary weights during detector joint fine-tuning.
+MOTION_LOSS_WEIGHT: 0.05
+INTERACTION_LOSS_WEIGHT: 0.08
+MEMORY_QUALITY_LOSS_WEIGHT: 0.05
+SLOT_STATE_LOSS_WEIGHT: 0.05
+RECONNECT_LOSS_WEIGHT: 0.15
+
+INFERENCE_GROUP: unified_stage2
+

@@ -1,0 +1,63 @@
+SUPER_CONFIG_PATH: ./configs/motip_fish_v2.yaml
+
+EXP_NAME: fish_unified_stage1
+OUTPUTS_DIR: ./outputs/fish_unified_stage1
+RESUME_MODEL: ./checkpoints/fishmotip_unified_bootstrap.pth
+RESUME_OPTIMIZER: False
+RESUME_SCHEDULER: False
+RESUME_STATES: False
+
+# Circular-pool geometry in normalized image coordinates.
+POOL_CENTER: [0.500, 0.500]
+POOL_RADIUS: 0.485
+
+# Motion-conditioned association.
+MOTION_DIM: 96
+MOTION_LAYERS: 3
+MOTION_HEADS: 4
+MOTION_MAX_LENGTH: 60
+MOTION_LOSS_WEIGHT: 0.08
+
+# Persistent identity slots and dual memory.
+MEMORY_QUALITY_IOU: 0.25
+MEMORY_UPDATE_THRESHOLD: 0.65
+MEMORY_MOMENTUM: 0.90
+MEMORY_QUALITY_LOSS_WEIGHT: 0.05
+SLOT_STATE_LOSS_WEIGHT: 0.05
+RECONNECT_LOSS_WEIGHT: 0.20
+RECONNECT_MIN_LENGTH: 4
+RECONNECT_MAX_LENGTH: 20
+
+# Interaction-aware global decoder.
+INTERACTION_DIM: 256
+INTERACTION_LAYERS: 2
+INTERACTION_HEADS: 8
+INTERACTION_NEAREST_K: 8
+INTERACTION_LOSS_WEIGHT: 0.10
+
+# Stop all auxiliary geometry at DETR coordinates. Appearance/ID gradients and
+# the normal DETR losses still update the detector in stage 2.
+UNIFIED_DETACH_DETR_BOXES: True
+
+# Four augmentation groups keep the unified three-branch model below 24 GB/GPU.
+AUG_NUM_GROUPS: 4
+AUG_TRAJECTORY_OCCLUSION_PROB: 0.55
+AUG_TRAJECTORY_SWITCH_PROB: 0.20
+
+# Association integration warm-up. All three branches are initialized from
+# their completed checkpoint_39 weights; DETR is frozen in this stage.
+DETR_NUM_TRAIN_FRAMES: 0
+EPOCHS: 8
+LR: 5.0e-5
+LR_WARMUP_START_EPOCH: 0
+LR_WARMUP_EPOCHS: 1
+SCHEDULER_MILESTONES: [5, 7]
+MAX_TRAIN_STEPS_PER_EPOCH:
+
+# Closed-pool fish counts for validation videos.
+PERSISTENT_NUM_SLOTS:
+  seq3: 27
+  seq7: 27
+
+INFERENCE_MODEL:
+INFERENCE_GROUP: unified_stage1
